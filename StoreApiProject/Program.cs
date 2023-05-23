@@ -20,6 +20,8 @@ namespace StoreApiProject
                 options.UseSqlServer("Data Source=DESKTOP-8CEBSKB\\SQLEXPRESS;Initial Catalog=StorageDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
             });
 
+            builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -34,13 +36,18 @@ namespace StoreApiProject
             app.UseAuthorization();
 
             app.MapRazorPages();
-          
+     //   using (var scope = app.Services.CreateScope())
+     //   {
+     //       using (var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>())
+     //       {
+     //           DbSeedingClass.SeedDataContext(dbContext);
+     //       }
+     //
+     //   }
+
 
             app.Run();
-            using (var dbContext = new AppDbContext())
-            {
-
-            }
+           
 
 
         }

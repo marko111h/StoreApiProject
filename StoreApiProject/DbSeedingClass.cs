@@ -8,9 +8,9 @@ using System.Security.Cryptography.X509Certificates;
 namespace StoreApiProject
 {
 
-    public  class DbSeedingClass
+    public static class DbSeedingClass
     {
-        public  void SeedDataContext(this AppDbContext context)
+        public static void SeedDataContext(this AppDbContext context)
         {
             var products = new List<Products>()
             {
