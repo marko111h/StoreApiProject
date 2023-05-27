@@ -15,14 +15,32 @@ namespace StoreApiProject.Services
            return _productsContext.Product.OrderBy(p => p.ProductName).ToList();
         }
         //asdasdasdasdsa
-        public Products GetProducts(int ProductId)
+        public Products GetProduct(int ProductId)
         {
-           return _productsContext.Product.Where(p => p.ProductId == ProductId).FirstOrDefault();
+         
+            return _productsContext.Product.Where(p => p.ProductId == ProductId).FirstOrDefault();
         }
 
-        public Products GetProducts(decimal Price)
+        public Products GetProductByPrice(decimal Price)
         {
-            throw new NotImplementedException();
+            return _productsContext.Product.Where(p => p.Price == Price).FirstOrDefault();
+        }
+
+        public ICollection<string> GetProductNames()
+        {
+            return _productsContext.Product.OrderBy(p => p.ProductName).Select(p => p.ProductName).ToList();
+        }
+
+        public ICollection<object> GetProductNamesAndPrices()
+        {
+            return _productsContext.Product.Select(p => new {  p.ProductName, p.Price }).ToList<object>();
+        }
+
+        public ICollection<Products> GetProductsGreaterThen10()
+        {
+           
+                return _productsContext.Product.Where(p => p.Price > 10).OrderByDescending(p => p.Price).ToList();
+            
         }
     }
 }

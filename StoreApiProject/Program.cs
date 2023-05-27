@@ -12,8 +12,11 @@ namespace StoreApiProject
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddRazorPages();
-          
+        ///    builder.Services.AddRazorPages();
+        ///    
+
+            builder.Services.AddControllers();
+          System.Console.WriteLine("After controllers");
 
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
@@ -21,6 +24,8 @@ namespace StoreApiProject
             });
 
             builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
+            builder.Services.AddScoped<IStoragesRepository, StoragesRepository>();
+            builder.Services.AddScoped<IStateOfStoragesRepository, StateOfStoragesRepository>();
 
             var app = builder.Build();
 
@@ -29,13 +34,18 @@ namespace StoreApiProject
             {
                 app.UseExceptionHandler("/Error");
             }
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+        //    app.UseAuthorization();
 
-            app.MapRazorPages();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        //    app.MapRazorPages();
      //   using (var scope = app.Services.CreateScope())
      //   {
      //       using (var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>())

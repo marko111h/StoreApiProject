@@ -5,8 +5,11 @@ namespace StoreApiProject.Services
     public interface IProductsRepository
     {
         ICollection<Products> GetProducts();
-        Products GetProducts(int ProductId);
-        Products GetProducts(decimal Price);
+        Products GetProduct(int ProductId);
+        Products GetProductByPrice(decimal Price);
+        ICollection<string> GetProductNames();
+        ICollection<object> GetProductNamesAndPrices();
+        ICollection<Products> GetProductsGreaterThen10();
 
     }
 }
