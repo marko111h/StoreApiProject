@@ -1,0 +1,18 @@
+﻿using StoreApiProject.Models;
+using StoreApiProject.Services;
+
+internal static class AddNewDataHelpers
+{
+    //   public string Name { get; set; }
+    //  public decimal Price { get; set; }
+
+/// public static void Add(string name, decimal price, this AppDbContext context)
+/// {
+///     var newProduct = new List<Products>()
+///         {
+///              new Products { ProductName = name, Price = price },
+///         };
+///     context.Product.AddRange(newProduct);
+///     context.SaveChanges();
+/// }
+}

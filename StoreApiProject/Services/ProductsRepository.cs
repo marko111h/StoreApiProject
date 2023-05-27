@@ -42,5 +42,12 @@ namespace StoreApiProject.Services
                 return _productsContext.Product.Where(p => p.Price > 10).OrderByDescending(p => p.Price).ToList();
             
         }
+
+        public ICollection<Products> GetProductsGreaterThen10AndLowerThen30()
+        {
+
+            return _productsContext.Product.Where(p => p.Price > 10 && p.Price < 30 ).OrderByDescending(p => p.Price).ToList();
+
+        }
     }
 }

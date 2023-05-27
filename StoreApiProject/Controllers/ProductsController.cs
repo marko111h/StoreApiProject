@@ -98,5 +98,22 @@ namespace StoreApiProject.Controllers
 
             return Ok(products);
         }
+
+
+        // GET: api/products/getProductsGreaterThen10AndLowerThen30
+        [HttpGet("getProductsGreaterThen10AndLowerThen30")]
+        public IActionResult GetProductsGreaterThen10AndLowerThen30()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var products = _productsRepository.GetProductsGreaterThen10AndLowerThen30().ToList();
+
+
+
+            return Ok(products);
+        }
     }
 }

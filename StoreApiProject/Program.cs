@@ -45,15 +45,30 @@ namespace StoreApiProject
             {
                 endpoints.MapControllers();
             });
-        //    app.MapRazorPages();
-     //   using (var scope = app.Services.CreateScope())
-     //   {
-     //       using (var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>())
-     //       {
-     //           DbSeedingClass.SeedDataContext(dbContext);
-     //       }
-     //
-     //   }
+            //    app.MapRazorPages();
+            //   using (var scope = app.Services.CreateScope())
+            //   {
+            //       using (var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>())
+            //       {
+            //           DbSeedingClass.SeedDataContext(dbContext);
+            //       }
+            //
+            //   }
+            Console.WriteLine("If u want to add new data, press 'a' ");
+            string newData = Console.ReadLine();
+            if(newData == "a")
+            {
+                using(var scope = app.Services.CreateScope())
+                {
+                    var dbContext = scope.ServiceProvider.GetService<AppDbContext>();
+                    Console.WriteLine("Enter Product Name");
+                    string productName = Console.ReadLine();
+                    Console.WriteLine("Enter Price");
+                    decimal price = decimal.Parse(Console.ReadLine());
+                    AddNewData.Add(productName, price, dbContext);
+                }
+          
+            }
 
 
             app.Run();

@@ -10,6 +10,7 @@ namespace StoreApiProject.Services
         ICollection<string> GetProductNames();
         ICollection<object> GetProductNamesAndPrices();
         ICollection<Products> GetProductsGreaterThen10();
+        ICollection<Products> GetProductsGreaterThen10AndLowerThen30();
 
     }
 }
