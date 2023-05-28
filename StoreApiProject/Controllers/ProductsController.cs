@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StoreApiProject.Models;
 using StoreApiProject.Services;
 
 namespace StoreApiProject.Controllers
@@ -8,9 +9,11 @@ namespace StoreApiProject.Controllers
     public class ProductsController : Controller
     {
         private IProductsRepository _productsRepository;
-        public ProductsController(IProductsRepository productsRepository)
+        private AppDbContext _dbContext;
+        public ProductsController(IProductsRepository productsRepository, AppDbContext dbContext)
         {
             _productsRepository = productsRepository;
+            _dbContext = dbContext;
         }
 
         //api/products
@@ -115,5 +118,26 @@ namespace StoreApiProject.Controllers
 
             return Ok(products);
         }
+        /// POST: api/products
+        /// 
+        [HttpPost]
+        public IActionResult AddProduct([FromBody] ProductRequestModel model)
+        {
+            var newProduct = new Products
+            {
+                ProductName = model.Name,
+                Price = model.Price
+            };
+
+            _dbContext.Add(newProduct);
+            _dbContext.SaveChanges();
+
+            return Ok();
+        }
+    }
+    public class ProductRequestModel
+    {
+        public string Name { get; set; }
+        public decimal Price { get; set; }
     }
 }
