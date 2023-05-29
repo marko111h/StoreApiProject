@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using StoreApiProject.Models;
 using StoreApiProject.Services;
 
 namespace StoreApiProject.Controllers
@@ -28,5 +30,7 @@ namespace StoreApiProject.Controllers
                 }
                 return Ok(stateOfStorages);
             }
-        }
+
+     
+    }
     }
