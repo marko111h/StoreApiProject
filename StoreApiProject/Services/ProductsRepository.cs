@@ -49,5 +49,21 @@ namespace StoreApiProject.Services
             return _productsContext.Product.Where(p => p.Price > 10 && p.Price < 30 ).OrderByDescending(p => p.Price).ToList();
 
         }
+
+        public void DeleteProduct(int productId)
+        {
+            var product = _productsContext.Product.FirstOrDefault(p => p.ProductId == productId);
+
+            if (product != null)
+            {
+                _productsContext.Product.Remove(product);
+                _productsContext.SaveChanges();
+            }
+        }
+        public void SaveChanges()
+        {
+            _productsContext.SaveChanges();
+        }
+
     }
 }

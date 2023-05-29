@@ -134,6 +134,41 @@ namespace StoreApiProject.Controllers
 
             return Ok();
         }
+        /// DELETE: api/products/delete/{productIdDelete}
+        [HttpDelete("delete/{productId}")]
+        public IActionResult DeleteProduct(int productId)
+        {
+            _productsRepository.DeleteProduct(productId);
+            return NoContent();
+        }
+
+        /// Put: api/products/{productId}
+
+        [HttpPut("{productId}")]
+        public IActionResult UpdateProduct(int productId, [FromBody] Products updateProduct)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var product = _productsRepository.GetProduct(productId);
+
+            if(product == null)
+            {
+                return NotFound();
+            }
+
+            product.ProductName = updateProduct.ProductName;
+            product.Price = updateProduct.Price;
+
+
+            _productsRepository.SaveChanges();
+
+          
+
+            return NoContent();
+        }
     }
     public class ProductRequestModel
     {

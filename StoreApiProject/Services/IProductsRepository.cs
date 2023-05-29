@@ -11,6 +11,10 @@ namespace StoreApiProject.Services
         ICollection<object> GetProductNamesAndPrices();
         ICollection<Products> GetProductsGreaterThen10();
         ICollection<Products> GetProductsGreaterThen10AndLowerThen30();
+        void DeleteProduct(int productId);
+
+        void SaveChanges();
+      
 
     }
 }
