@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StoreApiProject.Models
 {
-    public class Storages
+    public class Storage
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

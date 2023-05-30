@@ -13,18 +13,18 @@ namespace StoreApiProject.Services
 
         }
 
-        public virtual DbSet<Products> Product { get; set; }
-        public virtual DbSet<StateOfStorages> StateOfStorage { get; set; }
-        public virtual DbSet<Storages> Storage { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<StateOfStorage> StateOfStorages { get; set; }
+        public virtual DbSet<Storage> Storages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<StateOfStorages>()
+            modelBuilder.Entity<StateOfStorage>()
                 .HasOne(s => s.Product)
                 .WithMany()
                 .HasForeignKey(s => s.ProductId);
 
-            modelBuilder.Entity<StateOfStorages>()
+            modelBuilder.Entity<StateOfStorage>()
              .HasOne(s => s.Storage)
              .WithMany()
              .HasForeignKey(s => s.StorageId);

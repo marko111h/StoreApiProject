@@ -12,17 +12,17 @@ namespace StoreApiProject.Services
         }
 
     
-        public ICollection<Storages> GetStorages()
+        public ICollection<Storage> GetStorages()
         {
-            return _storagesContext.Storage.ToList();
+            return _storagesContext.Storages.ToList();
         }
 
        public void DeleteStorage(int storageId)
         {
-            var storage = _storagesContext.Storage.Find(storageId);
+            var storage = _storagesContext.Storages.Find(storageId);
             if (storage != null)
             {
-                _storagesContext.Storage.Remove(storage);
+                _storagesContext.Storages.Remove(storage);
                 _storagesContext.SaveChanges();
             }
         }

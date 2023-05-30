@@ -10,12 +10,12 @@ namespace StoreApiProject
 
         public  void Add(string name, decimal price,  AppDbContext context)
         {
-            var newProduct = new Products
+            var newProduct = new Product
             {
                  ProductName = name,
                  Price = price,
             };
-            context.Product.AddRange(newProduct);
+            context.Products.AddRange(newProduct);
             context.SaveChanges();
         }
     }

@@ -123,7 +123,7 @@ namespace StoreApiProject.Controllers
         [HttpPost]
         public IActionResult AddProduct([FromBody] ProductRequestModel model)
         {
-            var newProduct = new Products
+            var newProduct = new Product
             {
                 ProductName = model.Name,
                 Price = model.Price
@@ -145,7 +145,7 @@ namespace StoreApiProject.Controllers
         /// Put: api/products/{productId}
 
         [HttpPut("{productId}")]
-        public IActionResult UpdateProduct(int productId, [FromBody] Products updateProduct)
+        public IActionResult UpdateProduct(int productId, [FromBody] Product updateProduct)
         {
             if(!ModelState.IsValid)
             {

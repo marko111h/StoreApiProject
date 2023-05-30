@@ -12,43 +12,43 @@ namespace StoreApiProject
     {
         public static void SeedDataContext(this AppDbContext context)
         {
-            var products = new List<Products>()
+            var products = new List<Product>()
             {
-               new Products { ProductName = "Apple", Price = 7.8m },
-                    new Products { ProductName = "Banana", Price = 12m },
-                    new Products { ProductName = "Orange", Price = 8.5m },
-                    new Products { ProductName = "Brocoli", Price = 10m },
-                    new Products { ProductName = "Onion", Price = 6.9m },
-                    new Products { ProductName = "Tomato", Price = 11m },
-                    new Products { ProductName = "Mushrooms", Price = 45m },
-                   new Products { ProductName = "Cucamber", Price = 25m },
-                      new Products { ProductName = "Carton", Price = 10.5m }
+               new Product { ProductName = "Apple", Price = 7.8m },
+                    new Product { ProductName = "Banana", Price = 12m },
+                    new Product { ProductName = "Orange", Price = 8.5m },
+                    new Product { ProductName = "Brocoli", Price = 10m },
+                    new Product { ProductName = "Onion", Price = 6.9m },
+                    new Product { ProductName = "Tomato", Price = 11m },
+                    new Product { ProductName = "Mushrooms", Price = 45m },
+                   new Product { ProductName = "Cucamber", Price = 25m },
+                      new Product { ProductName = "Carton", Price = 10.5m }
             };
-            context.Product.AddRange(products);
+            context.Products.AddRange(products);
             context.SaveChanges();
 
-            var storages = new List<Storages>()
+            var storages = new List<Storage>()
             {
-               new Storages { StorageName = "Storage1", KindOfStorage = "Fruit" },
-                    new Storages { StorageName = "Storage1", KindOfStorage = "Vegetables" },
+               new Storage { StorageName = "Storage1", KindOfStorage = "Fruit" },
+                    new Storage { StorageName = "Storage1", KindOfStorage = "Vegetables" },
              
             };
-            context.Storage.AddRange(storages);
+            context.Storages.AddRange(storages);
             context.SaveChanges();
 
             var productId = 1; 
             var storageId = 1;
 
-            var stateOfStorage = new List<StateOfStorages>()
+            var stateOfStorage = new List<StateOfStorage>()
             {
-                new StateOfStorages
+                new StateOfStorage
                 {
                     ProductId = productId,
                     StorageId = storageId,
                     Quantity = 10
                 }
             };
-            context.StateOfStorage.AddRange(stateOfStorage);
+            context.StateOfStorages.AddRange(stateOfStorage);
             context.SaveChanges();
         }
 

@@ -43,7 +43,7 @@ namespace StoreApiProject.Controllers
         [HttpPost]
         public IActionResult AddStorage([FromBody] StorageRequestModel model)
         {
-            var newStorage = new Storages
+            var newStorage = new Storage
             {
                 StorageName = model.Name,
                 KindOfStorage = model.KOS

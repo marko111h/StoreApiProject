@@ -4,6 +4,9 @@ namespace StoreApiProject.Services
 {
     public interface IStateOfStoragesRepository
     {
-        ICollection<StateOfStorages> GetStateOfStorages();
+        ICollection<StateOfStorage> GetStateOfStorages();
+
+        void DeleteStateOfStorage(int stateOfStorageId);
+
     }
 }

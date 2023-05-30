@@ -13,11 +13,22 @@ namespace StoreApiProject.Services
         }
 
 
-        public ICollection<StateOfStorages> GetStateOfStorages()
+        public ICollection<StateOfStorage> GetStateOfStorages()
         {
-            return _stateOfStorageContext.StateOfStorage.ToList();
+            return _stateOfStorageContext.StateOfStorages.ToList();
         }
 
-      
+        public void DeleteStateOfStorage(int stateOfStorageId)
+        {
+            var stateOfStorage = _stateOfStorageContext.StateOfStorages.FirstOrDefault(s => s.StateOfStorageId == stateOfStorageId);
+
+            if (stateOfStorage != null)
+            {
+                _stateOfStorageContext.StateOfStorages.Remove(stateOfStorage);
+                _stateOfStorageContext.SaveChanges();
+            }
+        }
+
+
     }
 }

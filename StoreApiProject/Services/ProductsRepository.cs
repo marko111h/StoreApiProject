@@ -10,53 +10,53 @@ namespace StoreApiProject.Services
         {
             _productsContext = productsContext;
         }
-        public ICollection<Products> GetProducts()
+        public ICollection<Product> GetProducts()
         {
-           return _productsContext.Product.OrderBy(p => p.ProductName).ToList();
+           return _productsContext.Products.OrderBy(p => p.ProductName).ToList();
         }
         //asdasdasdasdsa
-        public Products GetProduct(int ProductId)
+        public Product GetProduct(int ProductId)
         {
          
-            return _productsContext.Product.Where(p => p.ProductId == ProductId).FirstOrDefault();
+            return _productsContext.Products.Where(p => p.ProductId == ProductId).FirstOrDefault();
         }
 
-        public Products GetProductByPrice(decimal Price)
+        public Product GetProductByPrice(decimal Price)
         {
-            return _productsContext.Product.Where(p => p.Price == Price).FirstOrDefault();
+            return _productsContext.Products.Where(p => p.Price == Price).FirstOrDefault();
         }
 
         public ICollection<string> GetProductNames()
         {
-            return _productsContext.Product.OrderBy(p => p.ProductName).Select(p => p.ProductName).ToList();
+            return _productsContext.Products.OrderBy(p => p.ProductName).Select(p => p.ProductName).ToList();
         }
 
         public ICollection<object> GetProductNamesAndPrices()
         {
-            return _productsContext.Product.Select(p => new {  p.ProductName, p.Price }).ToList<object>();
+            return _productsContext.Products.Select(p => new {  p.ProductName, p.Price }).ToList<object>();
         }
 
-        public ICollection<Products> GetProductsGreaterThen10()
+        public ICollection<Product> GetProductsGreaterThen10()
         {
            
-                return _productsContext.Product.Where(p => p.Price > 10).OrderByDescending(p => p.Price).ToList();
+                return _productsContext.Products.Where(p => p.Price > 10).OrderByDescending(p => p.Price).ToList();
             
         }
 
-        public ICollection<Products> GetProductsGreaterThen10AndLowerThen30()
+        public ICollection<Product> GetProductsGreaterThen10AndLowerThen30()
         {
 
-            return _productsContext.Product.Where(p => p.Price > 10 && p.Price < 30 ).OrderByDescending(p => p.Price).ToList();
+            return _productsContext.Products.Where(p => p.Price > 10 && p.Price < 30 ).OrderByDescending(p => p.Price).ToList();
 
         }
 
         public void DeleteProduct(int productId)
         {
-            var product = _productsContext.Product.FirstOrDefault(p => p.ProductId == productId);
+            var product = _productsContext.Products.FirstOrDefault(p => p.ProductId == productId);
 
             if (product != null)
             {
-                _productsContext.Product.Remove(product);
+                _productsContext.Products.Remove(product);
                 _productsContext.SaveChanges();
             }
         }
