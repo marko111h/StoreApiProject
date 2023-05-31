@@ -1,0 +1,40 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="739" Width="1251">
+    <Grid>
+        <Label x:Name="lblName" Content="Name" HorizontalAlignment="Left" Height="27" Margin="35,32,0,0" VerticalAlignment="Top" Width="61"/>
+        <Label x:Name="lblPrice" Content="Price" HorizontalAlignment="Left" Height="27" Margin="35,73,0,0" VerticalAlignment="Top" Width="61"/>
+        <TextBox x:Name="txtName" HorizontalAlignment="Left" Height="24" Margin="115,32,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115"/>
+        <TextBox x:Name="txtPrice" HorizontalAlignment="Left" Height="27" Margin="115,73,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115"/>
+        <Button x:Name="btnSaveProduct" Content="Add Product" HorizontalAlignment="Left" Height="25" Margin="115,123,0,0" VerticalAlignment="Top" Width="115" Click="btnSaveProduct_Click"/>
+        <DataGrid x:Name="dgProduct" HorizontalAlignment="Left" Height="342" Margin="264,68,0,0" VerticalAlignment="Top" Width="517" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Product Id" Binding="{Binding Path=ProductId}"/>
+                <DataGridTextColumn Header="Product Name" Binding="{Binding Path=ProductName}"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding Path=Price}"/>
+                <DataGridTemplateColumn Header="Edit Action">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="btnEditProduct">Edit</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Delete Action">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="btnDeleteProduct">Edit</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnLoadProduct" Content="LoadProducts" HorizontalAlignment="Left" Height="27" Margin="663,41,0,0" VerticalAlignment="Top" Width="118" Click="btnLoadProduct_Click"/>
+        <TextBox x:Name="txtProductId" Visibility="Hidden" HorizontalAlignment="Left" Height="17" Margin="115,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115"/>
+
+    </Grid>
+</Window>

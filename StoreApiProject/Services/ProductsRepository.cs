@@ -15,15 +15,15 @@ namespace StoreApiProject.Services
            return _productsContext.Products.OrderBy(p => p.ProductName).ToList();
         }
         //asdasdasdasdsa
-        public Product GetProduct(int ProductId)
+        public Product GetProduct(int productId)
         {
          
-            return _productsContext.Products.Where(p => p.ProductId == ProductId).FirstOrDefault();
+            return _productsContext.Products.Where(p => p.ProductId == productId).FirstOrDefault();
         }
 
-        public Product GetProductByPrice(decimal Price)
+        public Product GetProductByPrice(decimal price)
         {
-            return _productsContext.Products.Where(p => p.Price == Price).FirstOrDefault();
+            return _productsContext.Products.Where(p => p.Price == price).FirstOrDefault();
         }
 
         public ICollection<string> GetProductNames()
@@ -33,7 +33,7 @@ namespace StoreApiProject.Services
 
         public ICollection<object> GetProductNamesAndPrices()
         {
-            return _productsContext.Products.Select(p => new {  p.ProductName, p.Price }).ToList<object>();
+            return _productsContext.Products.Select(p => new {  p.ProductName, p.Price }).Cast<object>().ToList(); 
         }
 
         public ICollection<Product> GetProductsGreaterThen10()
