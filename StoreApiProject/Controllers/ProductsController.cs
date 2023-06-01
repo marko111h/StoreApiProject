@@ -18,9 +18,17 @@ namespace StoreApiProject.Controllers
 
         //api/products
         [HttpGet]
-        public IActionResult GetProducts()
+        public IActionResult GetProducts([FromQuery] decimal? greaterThen, [FromQuery] decimal? lowerThen )
         {
-            var products = _productsRepository.GetProducts().ToList();
+            IList<Product> products;
+            if( greaterThen.HasValue )
+            {
+                products = _productsRepository.GetProducts(greaterThen.Value, lowerThen).ToList();
+            }else
+            {
+                 products = _productsRepository.GetProducts().ToList();
+            }
+            
 
             if(!ModelState.IsValid)
             {
@@ -86,53 +94,23 @@ namespace StoreApiProject.Controllers
             return Ok(products);
         }
 
-        // GET: api/products/getProductsGreaterThen10
-        [HttpGet("getProductsGreaterThen10")]
-        public IActionResult GetProductsGreaterThen10()
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var products = _productsRepository.GetProductsGreaterThen10().ToList();
 
 
-
-            return Ok(products);
-        }
-
-
-        // GET: api/products/getProductsGreaterThen10AndLowerThen30
-        [HttpGet("getProductsGreaterThen10AndLowerThen30")]
-        public IActionResult GetProductsGreaterThen10AndLowerThen30()
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var products = _productsRepository.GetProductsGreaterThen10AndLowerThen30().ToList();
-
-
-
-            return Ok(products);
-        }
-        /// POST: api/products
+        /// POST: api/products/
         /// 
         [HttpPost]
         public IActionResult AddProduct([FromBody] ProductRequestModel model)
         {
             var newProduct = new Product
             {
-                ProductName = model.Name,
+                ProductName = model.ProductName,
                 Price = model.Price
             };
 
             _dbContext.Add(newProduct);
             _dbContext.SaveChanges();
 
-            return Ok();
+            return Ok(newProduct);
         }
         /// DELETE: api/products/delete/{productIdDelete}
         [HttpDelete("delete/{productId}")]
@@ -172,7 +150,11 @@ namespace StoreApiProject.Controllers
     }
     public class ProductRequestModel
     {
-        public string Name { get; set; }
+        public int ProductId { get; set; }
+
+        public string ProductName { get; set; }
+
         public decimal Price { get; set; }
-    }
+   
+}
 }

@@ -104,7 +104,7 @@ namespace WpfApp1
                 lblMessage.Content = "Product Updated";
             }
 
-            txtProductId.Text = 0.ToString();
+            txtProductId.Text = "0";
             txtName.Text = "";
             txtPrice.Text = "";
         }

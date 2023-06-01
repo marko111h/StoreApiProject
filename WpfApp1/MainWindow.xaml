@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="739" Width="1251">
+        Title="MainWindow" Height="568" Width="1251">
     <Grid>
         <Label x:Name="lblName" Content="Name" HorizontalAlignment="Left" Height="27" Margin="35,32,0,0" VerticalAlignment="Top" Width="61"/>
         <Label x:Name="lblPrice" Content="Price" HorizontalAlignment="Left" Height="27" Margin="35,73,0,0" VerticalAlignment="Top" Width="61"/>

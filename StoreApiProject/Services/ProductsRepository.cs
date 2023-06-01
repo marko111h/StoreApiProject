@@ -35,20 +35,20 @@ namespace StoreApiProject.Services
         {
             return _productsContext.Products.Select(p => new {  p.ProductName, p.Price }).Cast<object>().ToList(); 
         }
-
-        public ICollection<Product> GetProductsGreaterThen10()
+        
+        public ICollection<Product> GetProducts(decimal greaterThen, decimal? lowerThen )
         {
-           
-                return _productsContext.Products.Where(p => p.Price > 10).OrderByDescending(p => p.Price).ToList();
+           if( lowerThen == null )
+            {
+                return _productsContext.Products.Where(p => p.Price > greaterThen).OrderByDescending(p => p.Price).ToList();
+            }else
+            {
+                return _productsContext.Products.Where(p => p.Price > greaterThen && p.Price < lowerThen.Value).OrderByDescending(p => p.Price).ToList();
+            }
+               
             
         }
 
-        public ICollection<Product> GetProductsGreaterThen10AndLowerThen30()
-        {
-
-            return _productsContext.Products.Where(p => p.Price > 10 && p.Price < 30 ).OrderByDescending(p => p.Price).ToList();
-
-        }
 
         public void DeleteProduct(int productId)
         {
