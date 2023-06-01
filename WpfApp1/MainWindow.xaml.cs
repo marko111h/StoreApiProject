@@ -32,7 +32,7 @@ namespace WpfApp1
 
         private async void GetProducts()
         {
-            //  lblMessage.Content = "";
+            lblMessage.Content = "";
             try
             {
                 var response = await client.GetStringAsync("products");
@@ -85,30 +85,33 @@ namespace WpfApp1
         {
             var product = new Product()
             {
-              //  ProductId = int.Parse(txtProductId.Text),
+              ProductId = int.Parse(txtProductId.Text),
                 ProductName = txtName.Text,
                 Price = decimal.Parse(txtPrice.Text),
             };
-            this.SaveProduct(product);
+         
 
-            //     if (product.ProductId == 0)
-            //     {
-            //         this.SaveProduct(product);
-            //
-            //     }
-            //     else
-            //     {
-            //         this.UpdateProduct(product);
-            //     }
+              if (product.ProductId == 0)
+              {
 
-            //  txtProductId.Text = product.ProductId.ToString();
+                this.SaveProduct(product);
+                lblMessage.Content = "Product Saved";
+         
+              }
+              else
+              {
+                  this.UpdateProduct(product);
+                lblMessage.Content = "Product Updated";
+            }
+
+            txtProductId.Text = 0.ToString();
             txtName.Text = "";
             txtPrice.Text = "";
         }
         void btnEditProduct(object sender, RoutedEventArgs e)
         {
             Product product = ((FrameworkElement)sender).DataContext as Product;
-          //  txtProductId.Text = product.ProductId.ToString();
+            txtProductId.Text = product.ProductId.ToString();
             txtName.Text = product.ProductName;
             txtPrice.Text = product.Price.ToString();
 
