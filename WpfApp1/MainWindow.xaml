@@ -21,7 +21,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <DataGrid x:Name="dgProduct" HorizontalAlignment="Left" Height="342" Margin="264,68,0,0" VerticalAlignment="Top" Width="517" >
+        <DataGrid x:Name="dgProduct" HorizontalAlignment="Left" Height="342" Margin="264,68,0,0" VerticalAlignment="Top" Width="517" AutoGenerateColumns="False" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Product Id" Binding="{Binding Path=ProductId}"/>
                 <DataGridTextColumn Header="Product Name" Binding="{Binding Path=ProductName}"/>

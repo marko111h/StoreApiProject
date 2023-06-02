@@ -156,5 +156,5 @@ namespace StoreApiProject.Controllers
 
         public decimal Price { get; set; }
    
-}
+    }
 }

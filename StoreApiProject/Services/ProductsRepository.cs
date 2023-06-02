@@ -12,7 +12,7 @@ namespace StoreApiProject.Services
         }
         public ICollection<Product> GetProducts()
         {
-           return _productsContext.Products.OrderBy(p => p.ProductName).ToList();
+           return _productsContext.Products.OrderBy(p => p.ProductId).ToList();
         }
         //asdasdasdasdsa
         public Product GetProduct(int productId)
