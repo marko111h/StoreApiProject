@@ -9,7 +9,7 @@ namespace StoreApiProject.Services
         Product GetProductByPrice(decimal Price);
         ICollection<string> GetProductNames();
         ICollection<object> GetProductNamesAndPrices();
-        ICollection<Product> GetProducts(decimal greaterThen, decimal? lowerThen);
+        ICollection<Product> GetProducts(decimal? greaterThen, decimal? lowerThen);
          public void DeleteProduct(int productId);
 
         void SaveChanges();

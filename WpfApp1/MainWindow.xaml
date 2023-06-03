@@ -44,7 +44,12 @@
         </DataGrid>
         <Button x:Name="btnLoadProduct" Content="LoadProducts" HorizontalAlignment="Left" Height="27" Margin="663,41,0,0" VerticalAlignment="Top" Width="118" Click="btnLoadProduct_Click"/>
         <TextBox x:Name="txtProductId" Visibility="Hidden" HorizontalAlignment="Left" Height="17" Margin="115,10,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="115"/>
-        <Label x:Name="lblMessage"  Content="" HorizontalAlignment="Left" Height="33" Margin="115,176,0,0" VerticalAlignment="Top" Width="115"/>
+        <Label x:Name="lblMessage"  Content="" HorizontalAlignment="Left" Height="33" Margin="98,310,0,0" VerticalAlignment="Top" Width="115"/>
+        <TextBox x:Name="txtMaxPrice" HorizontalAlignment="Left" Height="27" Margin="172,191,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="52"/>
+        <TextBox x:Name="txtMinPrice" HorizontalAlignment="Left" Height="26" Margin="115,191,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.5,0.617"/>
+        <Button x:Name="btnFilter" Content="Filter" HorizontalAlignment="Left" Height="27" Margin="49,191,0,0" VerticalAlignment="Top" Width="61" RenderTransformOrigin="0.492,0.631" Click="btnFilter_Click"/>
+        <Button x:Name="btnViewStorages" Content="ViewStorages" HorizontalAlignment="Left" Height="27" Margin="878,73,0,0" VerticalAlignment="Top" Width="130" Click="btnViewStorages_Click"/>
+        <Button x:Name="btnViewStateOfStorages" Content="ViewStateOfStorages" HorizontalAlignment="Left" Height="32" Margin="878,121,0,0" VerticalAlignment="Top" Width="130" Click="btnViewStateOfStorages_Click"/>
 
     </Grid>
 </Window>

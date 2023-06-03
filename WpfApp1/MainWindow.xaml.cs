@@ -28,30 +28,110 @@ namespace WpfApp1
 
         private void btnLoadProduct_Click(object sender, RoutedEventArgs e)
         {
-            this.GetProducts();
+            this.GetProducts(null, null);
+            lblMessage.Content = "Product Loaded";
         }
 
-        private async void GetProducts()
+        private async void GetProducts(decimal? minPrice, decimal? maxPrice)
         {
-            lblMessage.Content = "";
-            try
+
+            if (minPrice == null && maxPrice == null)
             {
-                var response = await client.GetStringAsync("products");
-                var products = JsonConvert.DeserializeObject<List<Product>>(response);
-               
-               
-                dgProduct.ItemsSource = products.ToList();
+                // If neither minimum nor maximum prices are specified, all products are obtained
+
+                lblMessage.Content = "";
+                try
+                {
+                    var response = await client.GetStringAsync("products");
+                    var products = JsonConvert.DeserializeObject<List<Product>>(response);
+
+
+                    dgProduct.ItemsSource = products.ToList();
+                }
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show("An error occurred while loading products: " + ex.Message);
+                    throw;
+                }
+                catch (TaskCanceledException ex)
+                {
+                    MessageBox.Show("Task aborted while loading product: " + ex.Message);
+                    throw;
+                }
             }
-            catch (HttpRequestException ex)
+            else if (maxPrice == null)
             {
-                MessageBox.Show("An error occurred while loading products: " + ex.Message);
-                throw;
+                // If only the minimum price is given, products with a price higher than the minimum are obtained
+
+                lblMessage.Content = "";
+                try
+                {
+                    var response = await client.GetStringAsync($"products?greaterThen={minPrice}&lowerThen={maxPrice}");
+                    var products = JsonConvert.DeserializeObject<List<Product>>(response);
+
+
+                    dgProduct.ItemsSource = products.ToList();
+                }
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show("An error occurred while loading products: " + ex.Message);
+                    throw;
+                }
+                catch (TaskCanceledException ex)
+                {
+                    MessageBox.Show("Task aborted while loading product: " + ex.Message);
+                    throw;
+                }
             }
-            catch (TaskCanceledException ex)
+            else if (minPrice == null)
             {
-                MessageBox.Show("Task aborted while loading product: " + ex.Message);
-                throw;
+                // If only the max price is given, products with a price lower than the maximum are obtained
+
+                lblMessage.Content = "";
+                try
+                {
+                    var response = await client.GetStringAsync($"products?greaterThen={minPrice}&lowerThen={maxPrice}");
+                    var products = JsonConvert.DeserializeObject<List<Product>>(response);
+
+
+                    dgProduct.ItemsSource = products.ToList();
+                }
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show("An error occurred while loading products: " + ex.Message);
+                    throw;
+                }
+                catch (TaskCanceledException ex)
+                {
+                    MessageBox.Show("Task aborted while loading product: " + ex.Message);
+                    throw;
+                }
             }
+            else if (minPrice != null && maxPrice != null)
+            {
+                // If both the minimum and maximum price are given, products with a price between those two values are obtained
+
+                lblMessage.Content = "";
+                try
+                {
+                    var response = await client.GetStringAsync($"products?greaterThen={minPrice}&lowerThen={maxPrice}");
+                    var products = JsonConvert.DeserializeObject<List<Product>>(response);
+
+                    dgProduct.ItemsSource = products.ToList();
+                }
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show("An error occurred while loading products: " + ex.Message);
+                    throw;
+                }
+                catch (TaskCanceledException ex)
+                {
+                    MessageBox.Show("Task aborted while loading product: " + ex.Message);
+                    throw;
+                }
+
+            }
+
 
         }
         private async void SaveProduct(Product product)
@@ -59,7 +139,7 @@ namespace WpfApp1
             try
             {
                 await client.PostAsJsonAsync("products", product);
-                GetProducts();
+                GetProducts(null, null);
             }
             catch (HttpRequestException ex)
             {
@@ -77,33 +157,36 @@ namespace WpfApp1
         private async void UpdateProduct(Product product)
         {
             await client.PutAsJsonAsync("products/" + product.ProductId, product);
+            GetProducts(null, null);
         }
 
-        private async void DeleteProduct(int productId )
+        private async void DeleteProduct(int productId)
         {
-            await client.DeleteAsync("products/delete/"+ productId);
+            await client.DeleteAsync("products/delete/" + productId);
         }
 
         private void btnSaveProduct_Click(object sender, RoutedEventArgs e)
         {
             var product = new Product()
             {
-              ProductId = int.Parse(txtProductId.Text),
+                ProductId = int.Parse(txtProductId.Text),
                 ProductName = txtName.Text,
                 Price = decimal.Parse(txtPrice.Text),
             };
-         
 
-              if (product.ProductId == 0)
-              {
+
+            if (product.ProductId == 0)
+            {
 
                 this.SaveProduct(product);
                 lblMessage.Content = "Product Saved";
-         
-              }
-              else
-              {
-                  this.UpdateProduct(product);
+
+            }
+            else
+            {
+                this.UpdateProduct(product);
+
+
                 lblMessage.Content = "Product Updated";
             }
 
@@ -127,6 +210,56 @@ namespace WpfApp1
 
         }
 
-    }
+        private void btnFilter_Click(object sender, RoutedEventArgs e)
+        {
+            //   Product product = ((FrameworkElement)sender).DataContext as Product;
 
+            if (txtMinPrice.Text == "" && txtMaxPrice.Text == "")
+            {
+                lblMessage.Content = "Input value";
+
+            }
+            else if (txtMinPrice.Text == "" && txtMaxPrice.Text != "")
+            {
+                var filter = new Filter()
+                {
+                    MinPrice = null,
+                    MaxPrice = decimal.Parse(txtMaxPrice.Text)
+                };
+                this.GetProducts(filter.MinPrice, filter.MaxPrice);
+            }
+            else if (txtMinPrice.Text != "" && txtMaxPrice.Text == "")
+            {
+                var filter = new Filter()
+                {
+                    MinPrice = decimal.Parse(txtMinPrice.Text),
+                    MaxPrice = null
+                };
+                this.GetProducts(filter.MinPrice, filter.MaxPrice);
+            }
+            else
+            {
+                var filter = new Filter()
+                {
+                    MinPrice = decimal.Parse(txtMinPrice.Text),
+                    MaxPrice = decimal.Parse(txtMaxPrice.Text)
+                };
+                this.GetProducts(filter.MinPrice, filter.MaxPrice);
+            }
+            /// An error occurred while loading product: response status code does not indicate success: 400 (Bad Request)
+
+
+        }
+
+        private void btnViewStorages_Click(object sender, RoutedEventArgs e)
+        {
+            StorageWindow storageWindow = new StorageWindow();
+            storageWindow.Show();
+        }
+
+        private void btnViewStateOfStorages_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
 }

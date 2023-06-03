@@ -21,9 +21,9 @@ namespace StoreApiProject.Controllers
         public IActionResult GetProducts([FromQuery] decimal? greaterThen, [FromQuery] decimal? lowerThen )
         {
             IList<Product> products;
-            if( greaterThen.HasValue )
+            if( greaterThen.HasValue || lowerThen.HasValue)
             {
-                products = _productsRepository.GetProducts(greaterThen.Value, lowerThen).ToList();
+                products = _productsRepository.GetProducts(greaterThen, lowerThen).ToList();
             }else
             {
                  products = _productsRepository.GetProducts().ToList();
