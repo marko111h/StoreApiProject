@@ -147,6 +147,45 @@ namespace StoreApiProject.Controllers
 
             return NoContent();
         }
+
+
+        //api/products/fruits
+        [HttpGet("fruits")]
+        public IActionResult GetProductsFruits()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IList<Product> products;
+       
+              products = _productsRepository.GetProductsFruits().ToList();
+         
+
+
+         
+            return Ok(products);
+        }
+
+        //api/products/vegetables
+        [HttpGet("vegetables")]
+        public IActionResult GetProductsVegetables()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IList<Product> products;
+
+            products = _productsRepository.GetProductsVegetables().ToList();
+
+
+
+
+            return Ok(products);
+        }
     }
     public class ProductRequestModel
     {

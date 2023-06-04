@@ -4,6 +4,19 @@ namespace StoreApiProject.Services
 {
     public class ProductsRepository : IProductsRepository
     {
+        string[] fruits = {
+                "Apple", "Banana", "Orange", "Mango", "Strawberry", "Grapes",
+                "Watermelon", "Pineapple", "Kiwi", "Pear", "Peach", "Cherry",
+                "Blueberry", "Raspberry", "Blackberry", "Lemon", "Lime", "Coconut",
+                "Pomegranate", "Avocado", "Fig"
+            };
+
+        string[] vegetables = {
+                    "Carrot", "Broccoli", "Lettuce", "Tomato", "Cucumber", "Spinach",
+                    "Onion", "Potato", "Sweet Potato", "Pepper", "Cabbage", "Eggplant",
+                    "Zucchini", "Mushroom", "Cauliflower", "Celery", "Radish", "Asparagus",
+                    "Green Bean", "Beet", "Brussels Sprouts", "Artichoke"
+                };
         private AppDbContext _productsContext;
 
         public ProductsRepository(AppDbContext productsContext)
@@ -57,6 +70,15 @@ namespace StoreApiProject.Services
         }
      
 
+        }
+        public ICollection<Product> GetProductsFruits()
+        {
+            return _productsContext.Products.Where(p => fruits.Contains(p.ProductName)).ToList();
+        }
+
+        public ICollection<Product> GetProductsVegetables()
+        {
+            return _productsContext.Products.Where(p => vegetables.Contains(p.ProductName)).ToList();
         }
 
 

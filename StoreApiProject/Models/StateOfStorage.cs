@@ -13,6 +13,7 @@ namespace StoreApiProject.Models
         public Product Product { get; set; }
         public int StorageId { get; set; }
         [ForeignKey("StorageId")]
+       
         public Storage Storage { get; set; }
 
         public int Quantity { get; set; }

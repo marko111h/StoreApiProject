@@ -1,10 +1,14 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using WpfApp1.models;
 
@@ -16,6 +20,19 @@ namespace WpfApp1
     public partial class MainWindow : Window
     {
         HttpClient client = new HttpClient();
+        private DataTable originalTable;
+
+
+        string[] vegetables = {
+                    "Carrot", "Broccoli", "Lettuce", "Tomato", "Cucumber", "Spinach",
+                    "Onion", "Potato", "Sweet Potato", "Pepper", "Cabbage", "Eggplant",
+                    "Zucchini", "Mushroom", "Cauliflower", "Celery", "Radish", "Asparagus",
+                    "Green Bean", "Beet", "Brussels Sprouts", "Artichoke"
+                };
+
+        private int pointerForLoadOnlyNamesOfProducts = 0;
+
+     
         public MainWindow()
         {
             client.BaseAddress = new Uri("http://localhost:5067/api/");
@@ -24,12 +41,56 @@ namespace WpfApp1
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json")
                 );
             InitializeComponent();
+            originalTable = new DataTable()
+            {
+                
+            };
+           
         }
-
+        
+    
         private void btnLoadProduct_Click(object sender, RoutedEventArgs e)
         {
             this.GetProducts(null, null);
             lblMessage.Content = "Product Loaded";
+
+            if(pointerForLoadOnlyNamesOfProducts != 0)
+            {
+
+           
+          dgProduct.Columns.Clear();
+            dgProduct.ItemsSource = null;
+
+                   foreach (DataColumn column in originalTable.Columns)
+                   {
+                       dgProduct.Columns.Add(new DataGridTextColumn
+                       {
+                           Header = column.ColumnName,
+                           Binding = new Binding($"[{column.ColumnName}]")
+                       });
+                   }
+            dgProduct.ItemsSource = originalTable.DefaultView;
+            }
+
+            pointerForLoadOnlyNamesOfProducts = 0;
+            //   dgProduct.Columns.Add(new DataGridTextColumn()
+            //   {
+            //       Header = "Product Name",
+            //       Binding = new Binding("."),
+            //
+            //   });
+
+            ///
+            ///   foreach(DataColumn column in originalTable.Columns)
+            ///   {
+            ///       dgProduct.Columns.Add(new DataGridTextColumn
+            ///       {
+            ///           Header = column.ColumnName,
+            ///           Binding = new Binding($"[{column.ColumnName }]")
+            ///       });
+            ///   }
+            ///
+            ///       dgProduct.ItemsSource = originalTable.DefaultView;
         }
 
         private async void GetProducts(decimal? minPrice, decimal? maxPrice)
@@ -45,8 +106,9 @@ namespace WpfApp1
                     var response = await client.GetStringAsync("products");
                     var products = JsonConvert.DeserializeObject<List<Product>>(response);
 
+               
 
-                    dgProduct.ItemsSource = products.ToList();
+                  dgProduct.ItemsSource = products.ToList();
                 }
                 catch (HttpRequestException ex)
                 {
@@ -133,6 +195,78 @@ namespace WpfApp1
             }
 
 
+        }
+
+        private async void GetProductNames()
+        {
+            try
+            {
+                var response = await client.GetStringAsync("products/productsName");
+                var productNames = JsonConvert.DeserializeObject<List<string>>(response);
+
+              
+
+             dgProduct.ItemsSource = null;
+             dgProduct.ItemsSource = productNames.ToList();
+
+                dgProduct.Columns.Clear();
+                dgProduct.Columns.Add(new DataGridTextColumn()
+                {
+                    Header = "Product Name",
+                    Binding = new Binding(".")
+                });
+
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show("An error occurred while loading products:" + ex.Message);
+                throw;
+            }
+            catch (TaskCanceledException ex)
+            {
+                MessageBox.Show("Task aborted while loading product:" + ex.Message);
+                throw;
+            }
+        }
+        private async void GetProductsFruits()
+        {
+            try
+            {
+                var response = await client.GetStringAsync("products/fruits");
+                var productFruits = JsonConvert.DeserializeObject<List<Product>>(response);
+                dgProduct.ItemsSource = null;
+                dgProduct.ItemsSource = productFruits;
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show("An error occurred while loading products:" + ex.Message);
+                throw;
+            }
+            catch (TaskCanceledException ex)
+            {
+                MessageBox.Show("Task aborted while loading product:" + ex.Message);
+                throw;
+            }
+        }
+        private async void GetProductsVegetables()
+        {
+            try
+            {
+                var response = await client.GetStringAsync("products/vegetables");
+                var productVegetables = JsonConvert.DeserializeObject<List<Product>>(response);
+                dgProduct.ItemsSource = null;
+                dgProduct.ItemsSource = productVegetables;
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show("An error occurred while loading products:" + ex.Message);
+                throw;
+            }
+            catch (TaskCanceledException ex)
+            {
+                MessageBox.Show("Task aborted while loading product:" + ex.Message);
+                throw;
+            }
         }
         private async void SaveProduct(Product product)
         {
@@ -259,7 +393,25 @@ namespace WpfApp1
 
         private void btnViewStateOfStorages_Click(object sender, RoutedEventArgs e)
         {
+            StateOfStorageWindow stateOfStorageWindow = new StateOfStorageWindow();
+            stateOfStorageWindow.Show();
+        }
 
+        private void btnProductNamesOnly_Click(object sender, RoutedEventArgs e)
+        {
+            this.GetProductNames();
+            pointerForLoadOnlyNamesOfProducts = 1;
+        }
+
+        private void btnFruits_Click(object sender, RoutedEventArgs e)
+        {
+       
+            this.GetProductsFruits();
+        }
+
+        private void btnVegetables_Click(object sender, RoutedEventArgs e)
+        {
+            this.GetProductsVegetables();
         }
     }
 }

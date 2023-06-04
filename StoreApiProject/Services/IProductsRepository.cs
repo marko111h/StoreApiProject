@@ -10,6 +10,8 @@ namespace StoreApiProject.Services
         ICollection<string> GetProductNames();
         ICollection<object> GetProductNamesAndPrices();
         ICollection<Product> GetProducts(decimal? greaterThen, decimal? lowerThen);
+        ICollection<Product> GetProductsFruits();
+        ICollection<Product> GetProductsVegetables();
          public void DeleteProduct(int productId);
 
         void SaveChanges();

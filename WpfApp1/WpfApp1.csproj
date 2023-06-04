@@ -63,8 +63,8 @@
     </ApplicationDefinition>
     <Compile Include="models\StateOfStorage.cs" />
     <Compile Include="models\Storage.cs" />
-    <Compile Include="StateOfStorage.xaml.cs">
-      <DependentUpon>StateOfStorage.xaml</DependentUpon>
+    <Compile Include="StateOfStorageWindow.xaml.cs">
+      <DependentUpon>StateOfStorageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="StorageWindow.xaml.cs">
       <DependentUpon>StorageWindow.xaml</DependentUpon>
@@ -81,7 +81,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="StateOfStorage.xaml">
+    <Page Include="StateOfStorageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
