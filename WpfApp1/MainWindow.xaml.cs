@@ -23,13 +23,6 @@ namespace WpfApp1
         private DataTable originalTable;
 
 
-        string[] vegetables = {
-                    "Carrot", "Broccoli", "Lettuce", "Tomato", "Cucumber", "Spinach",
-                    "Onion", "Potato", "Sweet Potato", "Pepper", "Cabbage", "Eggplant",
-                    "Zucchini", "Mushroom", "Cauliflower", "Celery", "Radish", "Asparagus",
-                    "Green Bean", "Beet", "Brussels Sprouts", "Artichoke"
-                };
-
         private int pointerForLoadOnlyNamesOfProducts = 0;
 
      
@@ -43,6 +36,7 @@ namespace WpfApp1
             InitializeComponent();
             originalTable = new DataTable()
             {
+               
                 
             };
            
@@ -54,45 +48,11 @@ namespace WpfApp1
             this.GetProducts(null, null);
             lblMessage.Content = "Product Loaded";
 
-            if(pointerForLoadOnlyNamesOfProducts != 0)
-            {
+            this.BackTableAgain();
 
-           
-          dgProduct.Columns.Clear();
-            dgProduct.ItemsSource = null;
-
-                   foreach (DataColumn column in originalTable.Columns)
-                   {
-                       dgProduct.Columns.Add(new DataGridTextColumn
-                       {
-                           Header = column.ColumnName,
-                           Binding = new Binding($"[{column.ColumnName}]")
-                       });
-                   }
-            dgProduct.ItemsSource = originalTable.DefaultView;
-            }
-
-            pointerForLoadOnlyNamesOfProducts = 0;
-            //   dgProduct.Columns.Add(new DataGridTextColumn()
-            //   {
-            //       Header = "Product Name",
-            //       Binding = new Binding("."),
-            //
-            //   });
-
-            ///
-            ///   foreach(DataColumn column in originalTable.Columns)
-            ///   {
-            ///       dgProduct.Columns.Add(new DataGridTextColumn
-            ///       {
-            ///           Header = column.ColumnName,
-            ///           Binding = new Binding($"[{column.ColumnName }]")
-            ///       });
-            ///   }
-            ///
-            ///       dgProduct.ItemsSource = originalTable.DefaultView;
         }
 
+      
         private async void GetProducts(decimal? minPrice, decimal? maxPrice)
         {
 
@@ -209,12 +169,12 @@ namespace WpfApp1
              dgProduct.ItemsSource = null;
              dgProduct.ItemsSource = productNames.ToList();
 
-                dgProduct.Columns.Clear();
-                dgProduct.Columns.Add(new DataGridTextColumn()
-                {
-                    Header = "Product Name",
-                    Binding = new Binding(".")
-                });
+                 dgProduct.Columns.Clear();
+                 dgProduct.Columns.Add(new DataGridTextColumn()
+                 {
+                     Header = "Product Name",
+                     Binding = new Binding(".")
+                 });
 
             }
             catch (HttpRequestException ex)
@@ -235,6 +195,7 @@ namespace WpfApp1
                 var response = await client.GetStringAsync("products/fruits");
                 var productFruits = JsonConvert.DeserializeObject<List<Product>>(response);
                 dgProduct.ItemsSource = null;
+                this.BackTableAgain();
                 dgProduct.ItemsSource = productFruits;
             }
             catch (HttpRequestException ex)
@@ -255,6 +216,7 @@ namespace WpfApp1
                 var response = await client.GetStringAsync("products/vegetables");
                 var productVegetables = JsonConvert.DeserializeObject<List<Product>>(response);
                 dgProduct.ItemsSource = null;
+                this.BackTableAgain();
                 dgProduct.ItemsSource = productVegetables;
             }
             catch (HttpRequestException ex)
@@ -413,5 +375,56 @@ namespace WpfApp1
         {
             this.GetProductsVegetables();
         }
+        private void BackTableAgain()
+        {
+            dgProduct.Columns.Clear();
+
+            dgProduct.Columns.Add(new DataGridTextColumn
+            {
+                Header = "Product ID",
+                Binding = new Binding("ProductId")
+            });
+
+            dgProduct.Columns.Add(new DataGridTextColumn
+            {
+                Header = "Product Name",
+                Binding = new Binding("ProductName")
+            });
+
+            dgProduct.Columns.Add(new DataGridTextColumn
+            {
+                Header = "Price",
+                Binding = new Binding("Price")
+            });
+            DataGridTemplateColumn buttonColumnEdit = new DataGridTemplateColumn
+            {
+                Header = "Edit Action"
+            };
+            FrameworkElementFactory buttonFactory = new FrameworkElementFactory(typeof(Button));
+            buttonFactory.SetValue(Button.ContentProperty, "Edit");
+            buttonFactory.AddHandler(Button.ClickEvent, new RoutedEventHandler(btnEditProduct));
+
+            DataTemplate buttonTemplate = new DataTemplate { VisualTree = buttonFactory };
+            buttonColumnEdit.CellTemplate = buttonTemplate;
+
+            dgProduct.Columns.Add(buttonColumnEdit);
+
+            DataGridTemplateColumn buttonColumnDelete = new DataGridTemplateColumn
+            {
+                Header = "Delete Action"
+            };
+
+            FrameworkElementFactory btnFactory = new FrameworkElementFactory(typeof(Button));
+            btnFactory.SetValue(Button.ContentProperty, "Delete");
+            btnFactory.AddHandler(Button.ClickEvent, new RoutedEventHandler(btnDeleteProduct));
+
+            DataTemplate btnTemplate = new DataTemplate { VisualTree = btnFactory };
+            buttonColumnDelete.CellTemplate = btnTemplate;
+
+            dgProduct.Columns.Add(buttonColumnDelete);
+
+            dgProduct.ItemsSource = originalTable.DefaultView;
+        }
+
     }
 }
