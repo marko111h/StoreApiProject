@@ -235,7 +235,7 @@ namespace WpfApp1
             try
             {
                 await client.PostAsJsonAsync("products", product);
-                GetProducts(null, null);
+                this.GetProducts(null, null);
             }
             catch (HttpRequestException ex)
             {
@@ -253,7 +253,7 @@ namespace WpfApp1
         private async void UpdateProduct(Product product)
         {
             await client.PutAsJsonAsync("products/" + product.ProductId, product);
-            GetProducts(null, null);
+            this.GetProducts(null, null);
         }
 
         private async void DeleteProduct(int productId)
